@@ -1,4 +1,4 @@
-%undefine _hardened_build
+%global checkout 2880
 
 # Set up a new macro to define MOC's 'mocp' executable
 %global   exec   mocp
@@ -6,10 +6,16 @@
 Name:    moc
 Summary: Music on Console - Console audio player for Linux/UNIX
 Version: 2.6
-Release: 0.9.alpha2%{?dist}
+Release: 0.10.alpha2%{?dist}
 License: GPLv2+ and GPLv3+
 URL:     http://moc.daper.net
-Source0: http://ftp.daper.net/pub/soft/moc/unstable/moc-%{version}-alpha2.tar.xz
+
+## Source archive made by using following commands
+## svn co svn://svn.daper.net/moc/trunk
+## rm -rf trunk/.svn
+## tar -cvzf moc-git%%{checkout}.tar.gz trunk
+Source0: moc-git%{checkout}.tar.gz
+#Source0: http://ftp.daper.net/pub/soft/moc/unstable/moc-#%{version}-alpha2.tar.xz
 
 BuildRequires: pkgconfig(ncurses)
 BuildRequires: pkgconfig(alsa) 
@@ -39,13 +45,6 @@ BuildRequires: faad2-devel
 
 BuildRequires: autoconf, automake
 
-Requires: ffmpeg 
-Requires: opus
-Requires: libquvi
-Requires: libquvi-scripts
-Requires: popt
-Requires: faad2-libs
-
 %description
 MOC (music on console) is a console audio player for LINUX/UNIX designed to be
 powerful and easy to use. You just need to select a file from some directory
@@ -53,16 +52,17 @@ using the menu similar to Midnight Commander, and MOC will start playing all
 files in this directory beginning from the chosen file.
 
 %prep
-%setup -q -n moc-%{version}-alpha2
+%setup -q -n trunk
 
 %build
-export CFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
-export LDFLAGS="$RPM_LD_FLAGS -Wl,-z,now"
+autoreconf -ivf
+
 %configure --disable-static --disable-silent-rules --disable-rpath --with-rcc \
  --with-oss --with-alsa --with-jack --with-aac --with-mp3 \
  --with-musepack --with-vorbis --with-flac --with-wavpack \
  --with-sndfile --with-modplug --with-ffmpeg --with-speex \
- --with-samplerate --with-curl --disable-debug --without-magic
+ --with-samplerate --with-curl --disable-debug --without-magic \
+ CPPFLAGS="-I%{_includedir}/libdb -fPIC"
  
 %make_build
 
@@ -81,6 +81,10 @@ rm -f $RPM_BUILD_ROOT%_libdir/moc/decoder_plugins/*.la
 %{_libdir}/%{name}/
 
 %changelog
+* Mon May 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.10.alpha2
+- Update to commit 2880
+- Rebuild for ffmpeg 2.8.7
+
 * Mon May 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.9.alpha2
 - Fix faad2 dependencies
 
