@@ -81,7 +81,7 @@ rm -f $RPM_BUILD_ROOT%_libdir/moc/decoder_plugins/*.la
 %{_libdir}/%{name}/
 
 %changelog
-* Mon May 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.10.alpha2
+* Sun Jun 05 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.10.alpha2
 - Update to commit 2880
 - Rebuild for ffmpeg 2.8.7
 
