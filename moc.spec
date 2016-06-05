@@ -1,12 +1,10 @@
-%undefine _hardened_build
-
 # Set up a new macro to define MOC's 'mocp' executable
 %global   exec   mocp
 
 Name:    moc
 Summary: Music on Console - Console audio player for Linux/UNIX
 Version: 2.5.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+ and GPLv3+
 URL:     http://moc.daper.net
 Source0: http://ftp.daper.net/pub/soft/moc/stable/moc-%{version}.tar.bz2
@@ -37,15 +35,6 @@ BuildRequires: ffmpeg-devel
 BuildRequires: libmad-devel
 BuildRequires: faad2-devel
 
-BuildRequires: autoconf, automake
-
-Requires: ffmpeg 
-Requires: opus
-Requires: libquvi
-Requires: libquvi-scripts
-Requires: popt
-Requires: faad2-libs
-
 %description
 MOC (music on console) is a console audio player for LINUX/UNIX designed to be
 powerful and easy to use. You just need to select a file from some directory
@@ -56,13 +45,12 @@ files in this directory beginning from the chosen file.
 %setup -q -n moc-%{version}
 
 %build
-export CFLAGS="$RPM_OPT_FLAGS -Wl,-z,relro -Wl,-z,now"
-export LDFLAGS="$RPM_LD_FLAGS -Wl,-z,now"
 %configure --disable-static --disable-silent-rules --disable-rpath --with-rcc \
  --with-oss --with-alsa --with-jack --with-aac --with-mp3 \
  --with-musepack --with-vorbis --with-flac --with-wavpack \
  --with-sndfile --with-modplug --with-ffmpeg --with-speex \
- --with-samplerate --with-curl --disable-debug --without-magic
+ --with-samplerate --with-curl --disable-debug --without-magic \
+ CPPFLAGS="-I%{_includedir}/libdb -fPIC"
  
 %make_build
 
@@ -81,6 +69,9 @@ rm -f $RPM_BUILD_ROOT%_libdir/moc/decoder_plugins/*.la
 %{_libdir}/%{name}/
 
 %changelog
+* Sun Jun 05 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-3
+- Rebuild for ffmpeg 2.8.7
+
 * Mon May 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-2
 - Add faad2 dependencies
 
