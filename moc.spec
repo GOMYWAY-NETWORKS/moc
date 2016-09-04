@@ -1,10 +1,14 @@
+# Filtering of private libraries
+%global __provides_exclude_from ^%{_libdir}/%{name}/.*\\.so$
+#
+
 # Set up a new macro to define MOC's 'mocp' executable
 %global   exec   mocp
 
 Name:    moc
 Summary: Music on Console - Console audio player for Linux/UNIX
 Version: 2.5.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+ and GPLv3+
 URL:     http://moc.daper.net
 Source0: http://ftp.daper.net/pub/soft/moc/stable/moc-%{version}.tar.bz2
@@ -34,6 +38,8 @@ BuildRequires: popt-devel
 BuildRequires: ffmpeg-devel
 BuildRequires: libmad-devel
 BuildRequires: faad2-devel
+
+Requires: ffmpeg
 
 %description
 MOC (music on console) is a console audio player for LINUX/UNIX designed to be
@@ -69,6 +75,10 @@ rm -f $RPM_BUILD_ROOT%_libdir/moc/decoder_plugins/*.la
 %{_libdir}/%{name}/
 
 %changelog
+* Sun Sep 04 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1.4
+- Filtering of private libraries
+- Rebuild for ffmpeg 3.0.2
+
 * Sun Jun 05 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-3
 - Rebuild for ffmpeg 2.8.7
 
