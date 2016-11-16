@@ -1,21 +1,17 @@
-%global checkout 2880
+# Filtering of private libraries
+%global __provides_exclude_from ^%{_libdir}/%{name}/.*\\.so$
+#
 
 # Set up a new macro to define MOC's 'mocp' executable
 %global   exec   mocp
 
 Name:    moc
 Summary: Music on Console - Console audio player for Linux/UNIX
-Version: 2.6
-Release: 0.10.alpha2%{?dist}
+Version: 2.5.2
+Release: 1%{?dist}
 License: GPLv2+ and GPLv3+
 URL:     http://moc.daper.net
-
-## Source archive made by using following commands
-## svn co svn://svn.daper.net/moc/trunk
-## rm -rf trunk/.svn
-## tar -cvzf moc-git%%{checkout}.tar.gz trunk
-Source0: moc-git%{checkout}.tar.gz
-#Source0: http://ftp.daper.net/pub/soft/moc/unstable/moc-#%{version}-alpha2.tar.xz
+Source0: http://ftp.daper.net/pub/soft/moc/stable/moc-%{version}.tar.bz2
 
 BuildRequires: pkgconfig(ncurses)
 BuildRequires: pkgconfig(alsa) 
@@ -43,7 +39,7 @@ BuildRequires: ffmpeg-devel
 BuildRequires: libmad-devel
 BuildRequires: faad2-devel
 
-BuildRequires: autoconf, automake
+Requires: ffmpeg
 
 %description
 MOC (music on console) is a console audio player for LINUX/UNIX designed to be
@@ -52,11 +48,9 @@ using the menu similar to Midnight Commander, and MOC will start playing all
 files in this directory beginning from the chosen file.
 
 %prep
-%setup -q -n trunk
+%setup -q -n moc-%{version}
 
 %build
-autoreconf -ivf
-
 %configure --disable-static --disable-silent-rules --disable-rpath --with-rcc \
  --with-oss --with-alsa --with-jack --with-aac --with-mp3 \
  --with-musepack --with-vorbis --with-flac --with-wavpack \
@@ -81,38 +75,21 @@ rm -f $RPM_BUILD_ROOT%_libdir/moc/decoder_plugins/*.la
 %{_libdir}/%{name}/
 
 %changelog
-* Sun Jun 05 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.10.alpha2
-- Update to commit 2880
+* Wed Nov 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.2-1
+- Update to 2.5.2
+
+* Sun Sep 04 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-4
+- Filtering of private libraries
+- Rebuild for ffmpeg 3.0.2
+
+* Sun Jun 05 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-3
 - Rebuild for ffmpeg 2.8.7
 
-* Mon May 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.9.alpha2
-- Fix faad2 dependencies
+* Mon May 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-2
+- Add faad2 dependencies
 
-* Mon Apr 25 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.8.alpha2
-- ldconfig commands removed
-
-* Thu Jan 28 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.7.alpha2
-- Force -fstack-protector-all
-- Tries upstream patch
-
-* Sun Nov 01 2015 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.6.alpha1
-- Hardened builds on <F23
-
-* Tue Sep 29 2015 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.5.alpha1
-- Update to svn commit #2776
-- Used %%license macro
-
-* Tue Mar 24 2015 Antonio Trande <sagitter@fedoraproject.org> - 2.6-0.4.alpha1
-- Update to svn commit #2770
-
-* Mon Oct 20 2014 Sérgio Basto <sergio@serjux.com> - 2.6-0.3.alpha1
-- Rebuilt for FFmpeg 2.4.3
-
-* Fri Sep 26 2014 Nicolas Chauvet <kwizart@gmail.com> - 2.6-0.2.alpha1
-- Rebuilt for FFmpeg 2.4.x
-
-* Tue Sep 02 2014 Antonio Trande <sagitter@fedoraproject.org> 2.6-0.1.alpha1
-- Leap to 2.6-alpha1 release
+* Tue Apr 26 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-1
+- Update to 2.5.1
 
 * Tue Sep 02 2014 Antonio Trande <sagitter@fedoraproject.org> 2.5.0-2
 - Spec cleanups
