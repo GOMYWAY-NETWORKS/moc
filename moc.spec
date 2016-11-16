@@ -7,8 +7,8 @@
 
 Name:    moc
 Summary: Music on Console - Console audio player for Linux/UNIX
-Version: 2.5.1
-Release: 4%{?dist}
+Version: 2.5.2
+Release: 1%{?dist}
 License: GPLv2+ and GPLv3+
 URL:     http://moc.daper.net
 Source0: http://ftp.daper.net/pub/soft/moc/stable/moc-%{version}.tar.bz2
@@ -75,7 +75,10 @@ rm -f $RPM_BUILD_ROOT%_libdir/moc/decoder_plugins/*.la
 %{_libdir}/%{name}/
 
 %changelog
-* Sun Sep 04 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1.4
+* Wed Nov 16 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.2-1
+- Update to 2.5.2
+
+* Sun Sep 04 2016 Antonio Trande <sagitter@fedoraproject.org> - 2.5.1-4
 - Filtering of private libraries
 - Rebuild for ffmpeg 3.0.2
 
