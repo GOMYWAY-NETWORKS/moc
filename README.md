@@ -7,7 +7,7 @@ Here I spread the specification files (moc.spec) which can be used to build RPMs
 
 This repository will remain activated until new RPM Fusion infrastructure is completed.
 
-#### License
+### License
 *moc.spec* is under the terms of the MIT license.
 
 *MOC* software is under the terms of *GPLv2+ and GPLv3+* license.
@@ -50,8 +50,8 @@ RPMs building time depends by performance of your system; so, be patient.
 `$ cd $HOME/rpmbuild/RPMS/x86_64(or i386)`<br/>
 `$ su -c 'dnf install moc-?.arch.rpm'`
 
-#### Packager: 
+### Packager: 
 [sagitter] (https://fedoraproject.org/wiki/User:Sagitter)
 
-#### Contact:  
+### Contact:  
 sagitter AT fedoraproject DOT org
