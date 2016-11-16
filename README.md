@@ -34,7 +34,7 @@ You will see something like that:
 * Install *moc* related dependencies for building
 
 `$ cd $HOME/rpmbuild/SRPMS`<br/>
-`$ su -c 'dnf builddep libav?-src.rpm'`
+`$ su -c 'dnf builddep moc-?-src.rpm'`
 
 * Build 'moc' binary RPMs
 
